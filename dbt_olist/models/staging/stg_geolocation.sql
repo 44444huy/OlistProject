@@ -1,14 +1,14 @@
-with sources as (
-    select *
-    from {{ source('olist_raw', 'olist_geolocation_dataset') }}
+with source as (
+    select * from {{ source('olist_raw', 'olist_geolocation_dataset') }}
 ),
-renamed as (
+final as (
     select
-        cast(geolocation_zip_code_prefix as string)  as zip_code_prefix,
-        geolocation_lat as lat,
-        geolocation_lng as lng,
-        geolocation_city as city,
-        geolocation_state as state
-    from sources
+        cast(geolocation_zip_code_prefix as string) as zip_code_prefix,
+        avg(geolocation_lat) as latitude,
+        avg(geolocation_lng) as longitude,
+        any_value(geolocation_city) as city,
+        any_value(geolocation_state) as state
+    from source
+    group by 1
 )
-select * from renamed
+select * from final
