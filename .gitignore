@@ -1,0 +1,18 @@
+# Environment / secrets
+.env*
+*.env
+.env_encoded
+
+# Service account (GCP credential)
+kestra/service-account.json
+
+# Temporary files
+before_compose_up.txt
+
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Jupyter
+.ipynb_checkpoints/

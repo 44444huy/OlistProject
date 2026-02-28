@@ -1,0 +1,32 @@
+name: 'dbt_olist'
+version: '1.0.0'
+
+# Khớp với tên trong file profiles.yml của bạn
+profile: 'olist_project'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Cấu hình phân lớp dữ liệu (Data Layering)
+models:
+  dbt_olist:
+    +materialized: view
+    
+    staging:
+      +schema: staging
+    
+    intermediate:
+      +schema: intermediate
+      +materialized: ephemeral # "ephemeral" giúp dbt gom code lại mà không tạo bảng thực trên BQ, giúp tiết kiệm chi phí
+
+    marts:
+      +schema: marts
+      +materialized: table

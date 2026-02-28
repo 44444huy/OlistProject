@@ -1,0 +1,37 @@
+version: 2
+
+sources:
+  - name: olist_raw
+    # Thay bằng Project ID thực tế của bạn nếu 'projectdeolist' chưa đúng
+    database: projectdeolist 
+    # Khớp với tên Dataset trong ảnh của bạn
+    schema: olist_dataset 
+    description: "Dữ liệu thương mại điện tử Olist thô từ Brazil"
+    
+    tables:
+      - name: olist_customers_dataset
+        description: "Thông tin khách hàng và vị trí của họ"
+      
+      - name: olist_geolocation_dataset
+        description: "Dữ liệu mã bưu điện và tọa độ lat/lng"
+      
+      - name: olist_order_items_dataset
+        description: "Chi tiết các mặt hàng trong mỗi đơn hàng"
+      
+      - name: olist_order_payments_dataset
+        description: "Dữ liệu về các phương thức thanh toán của đơn hàng"
+      
+      - name: olist_order_reviews_dataset
+        description: "Dữ liệu đánh giá từ khách hàng"
+      
+      - name: olist_orders_dataset
+        description: "Thông tin cốt lõi về đơn hàng (thời gian, trạng thái)"
+      
+      - name: olist_products_dataset
+        description: "Chi tiết về sản phẩm (kích thước, danh mục)"
+      
+      - name: olist_sellers_dataset
+        description: "Thông tin về người bán"
+      
+      - name: product_category_name_translation
+        description: "Bảng tra cứu dịch tên danh mục từ tiếng Bồ Đào Nha sang tiếng Anh"
