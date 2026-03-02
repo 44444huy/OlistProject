@@ -25,7 +25,8 @@ models:
     
     intermediate:
       +schema: intermediate
-      +materialized: ephemeral # "ephemeral" giúp dbt gom code lại mà không tạo bảng thực trên BQ, giúp tiết kiệm chi phí
+      +materialized: view
+      #+materialized: ephemeral # giống như CTE, không tạo bảng vật lý, chỉ dùng trong quá trình chạy model
 
     marts:
       +schema: marts

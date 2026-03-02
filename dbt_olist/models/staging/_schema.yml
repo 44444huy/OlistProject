@@ -2,274 +2,173 @@ version: 2
 
 models:
   - name: stg_customers
-    description: ""
+    description: "Danh sách khách hàng của Olist. Mỗi khách hàng có một customer_id duy nhất cho mỗi đơn hàng."
     columns:
       - name: customer_id
-        data_type: string
-        description: ""
+        description: "Mã định danh khách hàng cho mỗi đơn hàng. Kết nối với bảng orders."
         tests:
           - unique
           - not_null
-
       - name: customer_unique_id
-        data_type: string
-        description: ""
-
+        description: "Mã định danh duy nhất của khách hàng (dùng để nhận diện khách hàng quay lại)."
       - name: zip_code_prefix
-        data_type: string
-        description: ""
-
+        description: "5 chữ số đầu của mã bưu điện khách hàng."
       - name: customer_city
-        data_type: string
-        description: ""
-
+        description: "Tên thành phố nơi khách hàng sinh sống."
       - name: customer_state
-        data_type: string
-        description: ""
+        description: "Tên bang nơi khách hàng sinh sống."
 
   - name: stg_geolocation
-    description: ""
+    description: "Thông tin tọa độ địa lý dựa trên mã bưu điện tại Brazil."
     columns:
       - name: zip_code_prefix
-        data_type: string
-        description: ""
+        description: "Mã bưu điện (đã được làm sạch để đảm bảo duy nhất)."
         tests:
           - unique 
           - not_null
-
       - name: latitude
-        data_type: float64
-        description: ""
-
+        description: "Vĩ độ của khu vực."
       - name: longitude
-        data_type: float64
-        description: ""
-
+        description: "Kinh độ của khu vực."
       - name: city
-        data_type: string
-        description: ""
-
+        description: "Thành phố tương ứng với mã bưu điện."
       - name: state
-        data_type: string
-        description: ""
+        description: "Bang tương ứng với mã bưu điện."
 
   - name: stg_order_items
-    description: ""
+    description: "Chi tiết các sản phẩm trong từng đơn hàng."
     columns:
       - name: order_item_pk
-        data_type: string
-        description: ""
+        description: "Khóa chính tự tạo (Surrogate Key) kết hợp từ order_id và order_item_id."
         tests:
           - unique
           - not_null
-
       - name: order_id
-        data_type: string
-        description: ""
+        description: "Mã định danh đơn hàng."
         tests:
           - not_null
-
       - name: order_item_id
-        data_type: int64
-        description: ""
-
+        description: "Số thứ tự của sản phẩm trong cùng một đơn hàng."
       - name: product_id
-        data_type: string
-        description: ""
-
+        description: "Mã định danh sản phẩm."
       - name: seller_id
-        data_type: string
-        description: ""
-
+        description: "Mã định danh người bán."
       - name: shipping_limit_at
-        data_type: timestamp
-        description: ""
-
+        description: "Ngày giới hạn người bán phải bàn giao sản phẩm cho đơn vị vận chuyển."
       - name: price
-        data_type: numeric
-        description: ""
-
+        description: "Giá của sản phẩm."
       - name: freight_value
-        data_type: numeric
-        description: ""
+        description: "Phí vận chuyển của sản phẩm."
 
   - name: stg_order_payment
-    description: ""
+    description: "Thông tin về các phương thức thanh toán của đơn hàng."
     columns:
       - name: order_payment_pk
-        data_type: string
-        description: ""
+        description: "Khóa chính tự tạo cho mỗi giao dịch thanh toán."
         tests:
           - unique
           - not_null
-
       - name: order_id
-        data_type: string
-        description: ""
+        description: "Mã định danh đơn hàng."
         tests:
           - not_null
-
       - name: payment_sequential
-        data_type: int64
-        description: ""
-
+        description: "Số thứ tự nếu khách hàng sử dụng nhiều phương thức thanh toán cho 1 đơn."
       - name: payment_type
-        data_type: string
-        description: ""
-
+        description: "Phương thức thanh toán (credit_card, boleto, voucher, v.v.)."
       - name: payment_installments
-        data_type: int64
-        description: ""
-
+        description: "Số kỳ trả góp."
       - name: payment_amount
-        data_type: numeric
-        description: ""
+        description: "Số tiền thanh toán."
 
   - name: stg_order_reviews
-    description: ""
+    description: "Các bài đánh giá từ khách hàng sau khi nhận hàng."
     columns:
       - name: order_review_pk
-        data_type: string
-        description: ""
+        description: "Khóa chính tự tạo cho mỗi bài đánh giá."
         tests:
           - unique
           - not_null
-
       - name: review_id
-        data_type: string
-        description: ""
-
+        description: "Mã định danh bài đánh giá gốc."
       - name: order_id
-        data_type: string
-        description: ""
-
+        description: "Mã định danh đơn hàng được đánh giá."
       - name: review_score
-        data_type: int64
-        description: ""
+        description: "Điểm đánh giá từ 1 đến 5."
         tests:
           - accepted_values:
               values: [1, 2, 3, 4, 5]
               quote: false
-
       - name: review_comment_title
-        data_type: string
-        description: ""
-
+        description: "Tiêu đề của bài đánh giá."
       - name: review_comment_message
-        data_type: string
-        description: ""
-
+        description: "Nội dung phản hồi từ khách hàng."
       - name: review_created_at
-        data_type: timestamp
-        description: ""
-
+        description: "Ngày khách hàng nhận được yêu cầu đánh giá."
       - name: review_answered_at
-        data_type: timestamp
-        description: ""
+        description: "Ngày khách hàng gửi đánh giá."
 
   - name: stg_orders
-    description: ""
+    description: "Thông tin tổng quan về vòng đời của một đơn hàng."
     columns:
       - name: order_id
-        data_type: string
-        description: ""
+        description: "Mã định danh duy nhất của đơn hàng."
         tests:
           - unique
           - not_null
-
       - name: customer_id
-        data_type: string
-        description: ""
-
+        description: "Mã khách hàng (theo từng đơn hàng)."
       - name: order_status
-        data_type: string
-        description: ""
-
+        description: "Trạng thái đơn hàng (delivered, shipped, canceled, v.v.)."
       - name: purchased_at
-        data_type: timestamp
-        description: ""
-
+        description: "Thời điểm khách hàng đặt hàng."
       - name: approved_at
-        data_type: timestamp
-        description: ""
-
+        description: "Thời điểm thanh toán được phê duyệt."
       - name: delivered_carrier_at
-        data_type: timestamp
-        description: ""
-
+        description: "Thời điểm đơn vị vận chuyển tiếp nhận hàng."
       - name: delivered_at
-        data_type: timestamp
-        description: ""
-
+        description: "Thời điểm khách hàng thực tế nhận được hàng."
       - name: estimated_delivery_at
-        data_type: timestamp
-        description: ""
+        description: "Ngày giao hàng dự kiến thông báo cho khách hàng."
 
   - name: stg_products
-    description: ""
+    description: "Thông tin chi tiết về các sản phẩm được bán trên sàn."
     columns:
       - name: product_id
-        data_type: string
-        description: ""
-
+        description: "Mã định danh sản phẩm."
       - name: product_category_name
-        data_type: string
-        description: ""
-
+        description: "Tên danh mục sản phẩm (Tiếng Bồ Đào Nha)."
       - name: product_name_length
-        data_type: float64
-        description: ""
-
+        description: "Độ dài tên sản phẩm tính theo số ký tự."
       - name: product_description_length
-        data_type: float64
-        description: ""
-
+        description: "Độ dài mô tả sản phẩm."
       - name: product_photos_qty
-        data_type: int64
-        description: ""
-
+        description: "Số lượng ảnh của sản phẩm."
       - name: product_weight_g
-        data_type: float64
-        description: ""
-
+        description: "Trọng lượng sản phẩm (grams)."
       - name: product_length_cm
-        data_type: float64
-        description: ""
-
+        description: "Chiều dài sản phẩm (cm)."
       - name: product_height_cm
-        data_type: float64
-        description: ""
-
+        description: "Chiều cao sản phẩm (cm)."
       - name: product_width_cm
-        data_type: float64
-        description: ""
+        description: "Chiều rộng sản phẩm (cm)."
 
   - name: stg_sellers
-    description: ""
+    description: "Thông tin về những người bán tham gia sàn Olist."
     columns:
       - name: seller_id
-        data_type: string
-        description: ""
-
+        description: "Mã định danh người bán."
       - name: zip_code_prefix
-        data_type: string
-        description: ""
-
+        description: "Mã bưu điện của khu vực người bán."
       - name: seller_city
-        data_type: string
-        description: ""
-
+        description: "Thành phố của người bán."
       - name: seller_state
-        data_type: string
-        description: ""
+        description: "Bang của người bán."
 
   - name: stg_product_category_name_translation
-    description: ""
+    description: "Bảng tra cứu để dịch tên danh mục sản phẩm."
     columns:
       - name: product_category_name_portuguese
-        data_type: string
-        description: ""
-
+        description: "Tên danh mục gốc bằng Tiếng Bồ Đào Nha."
       - name: product_category_name_english
-        data_type: string
-        description: ""
+        description: "Tên danh mục tương ứng bằng Tiếng Anh."
